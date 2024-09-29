@@ -70,6 +70,7 @@ exports.getUserPayments = async (req, res) => {
 };
 
 exports.registerPayment = async (req, res) => {
+    console.log('req.body', req.body)
     logger.info((`NEW USER: ${req.body.Email}`))
     try {
         const { Name, Email, Phone, Address, city, country, postcode, region, payment } = req.body;
