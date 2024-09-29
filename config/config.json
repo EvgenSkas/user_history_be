@@ -1,0 +1,13 @@
+{
+    "development": {
+        "username": "evgenskas_admin",
+        "password": "q5063743",
+        "database": "users_history",
+        "host": "localhost",
+        "dialect": "postgres"
+    },
+    "production": {
+        "use_env_variable": "DATABASE_URL",
+        "dialect": "postgres"
+    }
+}
