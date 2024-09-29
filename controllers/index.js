@@ -117,6 +117,7 @@ exports.registerPayment = async (req, res) => {
         });
         const associatedProducts = [];
         for (const product of products) {
+            console.log('product', product)
             const { name, quantity, amount, price, sku, unit, portion } = product;
 
             let productRecord = await db.Product.findOne({ where: { name: name } });
@@ -131,7 +132,8 @@ exports.registerPayment = async (req, res) => {
                     unit,
                     portion,
                 });
-            } 
+            }
+            console.log('productRecord', productRecord)
             associatedProducts.push(productRecord);
         }
         await paymentRecord.addProducts(associatedProducts);
