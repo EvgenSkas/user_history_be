@@ -83,7 +83,6 @@ exports.registerPayment = async (req, res) => {
         let user = await db.User.findOne({ where: { Email: Email } });
 
         if (!user) {
-            // If user doesn't exist, create a new user
             user = await db.User.create({
                 Name,
                 Email,
@@ -116,7 +115,7 @@ exports.registerPayment = async (req, res) => {
             amount,
             userId: user.id
         });
-
+        const associatedProducts = [];
         for (const product of products) {
             const { name, quantity, amount, price, sku, unit, portion } = product;
 
@@ -131,11 +130,11 @@ exports.registerPayment = async (req, res) => {
                     sku,
                     unit,
                     portion,
-                    paymentId: paymentRecord.id
                 });
-            }
+            } 
+            associatedProducts.push(productRecord);
         }
-
+        await paymentRecord.addProducts(associatedProducts);
         res.status(201).json({ message: 'Payment, user, and product created/updated successfully' });
     } catch (error) {
         logger.error(`Error occurred: ${error.message}`);

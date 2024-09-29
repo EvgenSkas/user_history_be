@@ -2,7 +2,9 @@
 
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
-const User = require('./user');  // Import the User model
+const User = require('./user');
+const Product = require('./product');
+const ProductPayment = require('./productPayment');
 
 // Define Payment model
 const Payment = sequelize.define('Payment', {
@@ -35,8 +37,20 @@ const Payment = sequelize.define('Payment', {
     timestamps: true,
 });
 
-// Define relationships
 Payment.belongsTo(User, { foreignKey: 'userId', as: 'user' }); // Payment belongs to a User
 User.hasMany(Payment, { foreignKey: 'userId', as: 'payments' }); // A User can have many Payments
+Product.belongsToMany(Payment, {
+    through: ProductPayment,  // Junction model
+    foreignKey: 'productId',  // Foreign key in ProductPayment table
+    otherKey: 'paymentId',
+    as: 'payments' // Alias for the relationship
+});
+
+Payment.belongsToMany(Product, {
+    through: ProductPayment,  // Junction model
+    foreignKey: 'paymentId',  // Foreign key in ProductPayment table
+    otherKey: 'productId',
+    as: 'products' // Alias for the relationship
+});
 
 module.exports = Payment;
