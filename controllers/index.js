@@ -55,7 +55,7 @@ exports.getUserPayments = async (req, res) => {
         if (!user) {
             const error = 'User not found';
             logger.error(`Error occurred: ${error}`);
-            return res.status(404).json({ error });
+            return res.status(200).json(null);
         }
 
         // Convert the Sequelize object to a plain JavaScript object
