@@ -30,11 +30,11 @@ const Product = sequelize.define('Product', {
     },
     unit: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
     },
     portion: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
     },
     createdAt: {
         field: 'created_at',
