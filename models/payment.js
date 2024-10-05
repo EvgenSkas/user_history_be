@@ -8,14 +8,6 @@ const ProductPayment = require('./productPayment');
 
 // Define Payment model
 const Payment = sequelize.define('Payment', {
-    sys: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    systranid: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
     orderid: {
         type: DataTypes.STRING,
         allowNull: false,

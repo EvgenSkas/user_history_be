@@ -8,8 +8,6 @@ export const data = {
     postcode: '232323',
     region: 'sdfsdf',
     payment: {
-        sys: 'none',
-        systranid: '0',
         orderid: '1381823724',
         products: [{
             name: 'T SILVER',

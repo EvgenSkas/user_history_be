@@ -8,8 +8,6 @@
     "postcode": "232323",
     "region": "sdfsdf",
     "payment": {
-        "sys": "none",
-        "systranid": "0",
         "orderid": "2032898809",
         "products": [
             {

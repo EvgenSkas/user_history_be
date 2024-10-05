@@ -32,6 +32,7 @@ exports.getAllProducts = async (req, res) => {
 };
 
 exports.getUserPayments = async (req, res) => {
+    console.log('req', req.query)
     try {
         const { Email } = req.query;
 
@@ -54,7 +55,7 @@ exports.getUserPayments = async (req, res) => {
 
         if (!user) {
             const error = 'User not found';
-            logger.error(`Error occurred: ${error}`);
+            logger.info(`Error occurred: ${error}`);
             return res.status(200).json(null);
         }
 
@@ -64,14 +65,13 @@ exports.getUserPayments = async (req, res) => {
         // Send the response as a plain JSON object
         res.status(200).json(userWithPayments);
     } catch (error) {
-        logger.error(`Error occurred: ${error.message}`);
+        logger.error(`Error - catch occurred: ${error.message}`);
         res.status(500).json({ error: 'An error occurred while processing your request' });
     }
 };
 
 exports.registerPayment = async (req, res) => {
     console.log('req.body', req.body)
-    logger.info((`NEW USER: ${req.body.Email}`))
     if (!req.body.Email) {
         res.status(201).json({ message: 'Payment, user, and product created/updated successfully' });
         return
@@ -106,11 +106,9 @@ exports.registerPayment = async (req, res) => {
             });
         }
 
-        const { sys, systranid, orderid, products, amount } = payment;
+        const { orderid, products, amount } = payment;
 
         const paymentRecord = await db.Payment.create({
-            sys,
-            systranid,
             orderid,
             amount,
             userId: user.id
