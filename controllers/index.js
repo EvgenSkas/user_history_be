@@ -73,8 +73,8 @@ exports.getUserPayments = async (req, res) => {
 exports.registerPayment = async (req, res) => {
     console.log('req.body', req.body)
     if (req.body.test && !req.body.payment) {
-        res.status(201).json({ message: 'Payment, user, and product created/updated successfully' });
-        return
+        
+        return res.status(201).json({ message: 'Payment, user, and product created/updated successfully' });
     }
     try {
         const { Name, Email, Phone, Address, city, country, postcode, region, payment } = req.body;
