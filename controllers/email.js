@@ -67,25 +67,25 @@ exports.reorder = async (req, res) => {
             // Port 25 is still widely used as a **relay** port from one server to another.
             // Port for SSL: 465
             // Port for TLS/STARTTLS: 587
-            port: 465,
-            //  if true the connection will use TLS when connecting to server. If false (the 
-            // default) then TLS is used if server supports the STARTTLS extension. In most 
-            // cases set this value to true if you are connecting to port 465. For port 587 or 
-            // 25 keep it false
-            secure: true, // use TLS
+            port: 587,
+            secure: false,
             auth: {
                 user: 'evgenskas@gmail.com',
                 pass: 'iicj qtxy tcnd mant'
-            }, 
+            },
+            tls: {
+                rejectUnauthorized: false
+            },
+            logger: true, 
         });
 
         transporter.verify(function (error, success) {
             if (error) {
-              console.log(error);
+                console.log(error);
             } else {
-              console.log("Server is ready to take our messages");
+                console.log("Server is ready to take our messages");
             }
-          });
+        });
 
         let mailOptions = {
             from: userEmail,
