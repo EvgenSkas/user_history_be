@@ -15,7 +15,7 @@ exports.reorder = async (req, res) => {
         }
 
         const user = await User.findOne({
-            where: { Email:userEmail },
+            where: { Email: userEmail },
         });
 
         const payment = await Payment.findOne({
@@ -61,14 +61,25 @@ exports.reorder = async (req, res) => {
         let transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: 'evgenskas@gmail.com', 
-                pass: 'iicj qtxy tcnd mant' 
-            }
+                user: 'evgenskas@gmail.com',
+                pass: 'iicj qtxy tcnd mant'
+            }, 
+            port: 465, 
+            secure: true,
+            debug: true
         });
 
+        transporter.verify(function (error, success) {
+            if (error) {
+              console.log(error);
+            } else {
+              console.log("Server is ready to take our messages");
+            }
+          });
+
         let mailOptions = {
-            from: "evgenskas@gmail.com",
-            to: 'myheatsticks88@gmail.com', 
+            from: userEmail,
+            to: 'myheatsticks88@gmail.com',
             subject: 'Reorder Details',
             html: emailContent
         };
@@ -80,6 +91,7 @@ exports.reorder = async (req, res) => {
             }
             res.status(200).json({ message: 'Reorder email sent successfully', info });
         });
+
 
     } catch (error) {
         logger.error(`Failed to send email: ${error.message}`);
