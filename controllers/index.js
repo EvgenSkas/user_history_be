@@ -73,11 +73,11 @@ exports.getUserPayments = async (req, res) => {
 exports.registerPayment = async (req, res) => {
     console.log('req.body', req.body)
     if (req.body.test && !req.body.payment) {
-        
+
         return res.status(201).json({ message: 'Payment, user, and product created/updated successfully' });
     }
     try {
-        const { Name, Email, Phone, Address, city, country, postcode, region, payment } = req.body;
+        const { Name, Email, Phone, Address, city, country, postcode, region, payment, delivery, delivery_price } = req.body;
 
         // 1. Check if the user exists by email
         let user = await db.User.findOne({ where: { Email: Email } });
@@ -108,11 +108,15 @@ exports.registerPayment = async (req, res) => {
 
         const { orderid, products, amount } = payment;
 
+        const deliveryData = delivery ? { delivery, deliveryPrice: delivery_price } : {}
+
         const paymentRecord = await db.Payment.create({
             orderid,
             amount,
-            userId: user.id
+            userId: user.id,
+            ...deliveryData,
         });
+
         const associatedProducts = [];
         for (const product of products) {
             console.log('product', product)

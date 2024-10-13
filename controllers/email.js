@@ -39,6 +39,7 @@ exports.reorder = async (req, res) => {
             <p>Payment ID: ${payment.id}</p>
             <p>Order ID: ${payment.orderid}</p>
             <p>Amount: $${payment.amount}</p>
+            ${!payment.delivery ? "" : `<p>Delivery: $${payment.delivery}</p> <p>Delivery Price: $${payment.deliveryPrice}</p>`}
             <h2>Products:</h2>
             <ul>
                 ${payment.products.map(product => `
@@ -76,7 +77,7 @@ exports.reorder = async (req, res) => {
             tls: {
                 rejectUnauthorized: false
             },
-            logger: true, 
+            logger: true,
         });
 
         transporter.verify(function (error, success) {

@@ -12,6 +12,14 @@ const Payment = sequelize.define('Payment', {
         type: DataTypes.STRING,
         allowNull: false,
     },
+    delivery: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+    deliveryPrice: {
+        type: DataTypes.FLOAT,
+        allowNull: true,
+    },
     amount: {
         type: DataTypes.FLOAT,
         allowNull: false,
