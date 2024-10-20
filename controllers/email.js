@@ -72,7 +72,7 @@ exports.reorder = async (req, res) => {
             secure: false,
             auth: {
                 user: 'myheatsticks88@gmail.com',
-                pass: 'iicj qtxy tcnd mant'
+                pass: 'khwu aqeb gszw xnfi'
             },
             tls: {
                 rejectUnauthorized: false
