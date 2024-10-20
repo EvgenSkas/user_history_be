@@ -4,10 +4,14 @@
         "password": "q5063743",
         "database": "users_history",
         "host": "localhost",
-        "dialect": "postgres"
+        "dialect": "postgres",
+        "emailAgentUserName": "myheatsticks88@gmail.com",
+        "emailAgentUserPassword": "khwu aqeb gszw xnfi"
     },
     "production": {
-        "use_env_variable": "DATABASE_URL",
-        "dialect": "postgres"
+        "db": "DATABASE_URL",
+        "dialect": "postgres",
+        "email_agent_username": "EMAIL_AGENT_USERNAME",
+        "email_agent_password": "EMAIL_AGENT_PASSWORD"
     }
 }

@@ -1,8 +1,14 @@
 const nodemailer = require('nodemailer');
 const { Payment, Product, User } = require('../models');
 const logger = require('../logger')
+const env = process.env.NODE_ENV || 'development';
+const config = require(__dirname + '/../config/config.json')[env];
+const storeEmail = config.email_agent_username ? process.env[config.email_agent_username] : config.emailAgentUserName
+const storeEmailPass = config.email_agent_username ? process.env[config.email_agent_password] : config.emailAgentUserPassword
 
 exports.reorder = async (req, res) => {
+    console.log('storeEmail', storeEmail, process.env.EMAIL_AGENT_USERNAME)
+    console.log('storeEmailPass', storeEmailPass, process.env.EMAIL_AGENT_PASSWORD)
     try {
         const orderId = req.query.orderid;
         const userEmail = req.query.Email;
@@ -71,8 +77,8 @@ exports.reorder = async (req, res) => {
             port: 587,
             secure: false,
             auth: {
-                user: 'myheatsticks88@gmail.com',
-                pass: 'khwu aqeb gszw xnfi'
+                user: storeEmail,
+                pass: storeEmailPass
             },
             tls: {
                 rejectUnauthorized: false
@@ -90,7 +96,7 @@ exports.reorder = async (req, res) => {
 
         let mailOptions = {
             from: userEmail,
-            to: 'myheatsticks88@gmail.com',
+            to: storeEmail,
             subject: 'Reorder Details',
             html: emailContent
         };
@@ -100,9 +106,44 @@ exports.reorder = async (req, res) => {
                 logger.error(`Failed to send email: ${error.message}`);
                 return res.status(500).json({ error: 'Failed to send email', details: error });
             }
-            res.status(200).json({ message: 'Reorder email sent successfully', info });
         });
 
+        const emailForCustomer = `
+        <h1>Hello ${user.Name}!</h1> 
+        <p> Thank you for the reorder ${payment.orderid} in our store.</p>
+        <p>Amount: $${payment.amount}</p>
+        ${!payment.delivery ? "" : `<p>Delivery: $${payment.delivery}</p> <p>Delivery Price: $${payment.deliveryPrice}</p>`}
+        <p>You will soon receive an email with the payment details.After receiving the payment, we will start processing your order:</p>
+        
+        <ul>
+            ${payment.products.map(product => `
+                <li>
+                    ${product.name} (Quantity: ${product.quantity}, Price: $${product.price}, Amount: $${product.amount})
+                </li>
+            `).join('')}
+        </ul>
+
+        <p>If you have any questions, just reply to this email.</p>
+        <p>Thanks you for choosing our store.</p>
+        <p>And have a great day!</p>
+
+        <p>Our contact information:</p>
+        <p>https://myheatsticks.net/contact</p>
+        `
+        let customerMailOptions = {
+            from: storeEmail,
+            to: userEmail,
+            subject: 'Myheatsticks Reorder Details',
+            html: emailForCustomer
+        };
+
+        transporter.sendMail(customerMailOptions, (error, info) => {
+            if (error) {
+                logger.error(`Failed to send email: ${error.message}`);
+                return res.status(500).json({ error: 'Failed to send email to customer ', details: error });
+            }
+            res.status(200).json({ message: 'Reorder email sent successfully', info });
+        });
 
     } catch (error) {
         logger.error(`Failed to send email: ${error.message}`);
