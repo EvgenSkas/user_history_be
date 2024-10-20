@@ -32,7 +32,6 @@ exports.getAllProducts = async (req, res) => {
 };
 
 exports.getUserPayments = async (req, res) => {
-    console.log('req', req.query)
     try {
         const { Email } = req.query;
 
@@ -71,7 +70,6 @@ exports.getUserPayments = async (req, res) => {
 };
 
 exports.registerPayment = async (req, res) => {
-    console.log('req.body', req.body)
     if (req.body.test && !req.body.payment) {
 
         return res.status(201).json({ message: 'Payment, user, and product created/updated successfully' });
@@ -119,7 +117,6 @@ exports.registerPayment = async (req, res) => {
 
         const associatedProducts = [];
         for (const product of products) {
-            console.log('product', product)
             const { name, quantity, amount, price, sku, unit, portion } = product;
 
             let productRecord = await db.Product.findOne({ where: { name: name } });
@@ -135,7 +132,6 @@ exports.registerPayment = async (req, res) => {
                     portion,
                 });
             }
-            console.log('productRecord', productRecord)
             associatedProducts.push(productRecord);
         }
         await paymentRecord.addProducts(associatedProducts);

@@ -7,8 +7,6 @@ const storeEmail = config.email_agent_username ? process.env[config.email_agent_
 const storeEmailPass = config.email_agent_username ? process.env[config.email_agent_password] : config.emailAgentUserPassword
 
 exports.reorder = async (req, res) => {
-    console.log('storeEmail', storeEmail, process.env.EMAIL_AGENT_USERNAME)
-    console.log('storeEmailPass', storeEmailPass, process.env.EMAIL_AGENT_PASSWORD)
     try {
         const orderId = req.query.orderid;
         const userEmail = req.query.Email;
@@ -84,14 +82,6 @@ exports.reorder = async (req, res) => {
                 rejectUnauthorized: false
             },
             logger: true,
-        });
-
-        transporter.verify(function (error, success) {
-            if (error) {
-                console.log(error);
-            } else {
-                console.log("Server is ready to take our messages");
-            }
         });
 
         let mailOptions = {

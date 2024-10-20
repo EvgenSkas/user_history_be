@@ -7,7 +7,6 @@ const sequelize = require('../config/database');
 // Initialize all the models and relationships
 const initModels = async () => {
   await sequelize.sync({ force: false });
-  console.log('Tables have been created');
 };
 
 // Export the models and init function
