@@ -1,12 +1,9 @@
-// models/payment.js
-
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 const User = require('./user');
 const Product = require('./product');
 const ProductPayment = require('./productPayment');
 
-// Define Payment model
 const Payment = sequelize.define('Payment', {
     orderid: {
         type: DataTypes.STRING,

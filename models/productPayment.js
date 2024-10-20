@@ -1,7 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
-// Define the junction model
 const ProductPayment = sequelize.define('ProductPayment', {
     productId: {
         type: DataTypes.INTEGER,
