@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 
 
 app.use(cors({
-    origin: ['https://myheatsticks.net', 'https://myheatsticks.net/user']
+    origin: ['https://myheatsticks.net', 'https://myheatsticks.net/user', 'https://myheatsticks.tilda.ws/']
 }));
 
 
