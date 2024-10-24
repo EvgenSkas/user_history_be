@@ -1,0 +1,19 @@
+version: '3.8'  # specify docker-compose version
+
+services:
+  postgres:
+    image: postgres:latest  # use the latest official postgres image
+    container_name: postgres_db
+    restart: always  # ensure the container restarts automatically if it crashes
+    environment:
+      POSTGRES_USER: admin  # change this to your desired username
+      POSTGRES_PASSWORD: '12345'  # change this to your desired password
+      POSTGRES_DB: users_history_prod  # change this to your desired database name
+    volumes:
+      - /mnt/volume-hil-1/postgres-data-1:/var/lib/postgresql/data  # persistent storage for database data
+    ports:
+      - "5432:5432"  # expose postgres port to the host
+
+volumes:
+  postgres_data:
+    driver: local  # store the data locally on the host
