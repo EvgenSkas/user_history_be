@@ -14,6 +14,19 @@ services:
     ports:
       - "5432:5432"  # expose postgres port to the host
 
+  nodejs-app:
+    build:
+      context: .  # the current directory (should contain your Dockerfile)
+      dockerfile: Dockerfile  # Dockerfile to build the Node.js app
+    container_name: user_history_be
+    restart: always  # ensure the container restarts automatically if it crashes
+    environment:
+      NODE_ENV: production
+    ports:
+      - "3000:3000"  # expose the Node.js app on port 3000
+    depends_on:
+      - postgres  # ensure postgres starts before the Node.js app
+
 volumes:
   postgres_data:
     driver: local  # store the data locally on the host
