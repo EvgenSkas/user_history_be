@@ -4,6 +4,8 @@ require('dotenv').config();
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.json')[env];
 
+console.log('env', process.env)
+
 let sequelize;
 if (config.db) {
     sequelize = new Sequelize(process.env[config.db]);
